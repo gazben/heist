@@ -26,8 +26,8 @@ const run = async function() {
             let stream = fs.createWriteStream('./result/' + wallet.getChecksumAddressString());
             stream.once('open', function(fd) {
                 stream.write('Address: ' + wallet.getChecksumAddressString() + '\n\n');
-                stream.write(wallet.getPrivateKey() + '\n\n');
-                stream.write(wallet.getPublicKey());
+                stream.write(wallet.getPrivateKeyString() + '\n\n');
+                stream.write(wallet.getPublicKeyString());
                 stream.end();
             });
         }
