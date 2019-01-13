@@ -17,9 +17,20 @@ async function getBalance(address) {
 
 const run = async function() {
     while(!finished) {
-    let wallet = ethLib.generate();
-    let currentBalance = await getBalance(wallet.getChecksumAddressString());
-    console.log(wallet.getChecksumAddressString() + " | Balance: " + currentBalance);
+        let wallet = ethLib.generate();
+        let currentBalance = await getBalance(wallet.getChecksumAddressString());
+        console.log(wallet.getChecksumAddressString() + " | Balance: " + currentBalance);
+
+        if(currentBalance > 0) {
+            const fs = require('fs');
+            let stream = fs.createWriteStream('./result/' + wallet.getChecksumAddressString());
+            stream.once('open', function(fd) {
+                stream.write('Address: ' + wallet.getChecksumAddressString() + '\n\n');
+                stream.write(wallet.getPrivateKey() + '\n\n');
+                stream.write(wallet.getPublicKey());
+                stream.end();
+            });
+        }
     }
 };
 
