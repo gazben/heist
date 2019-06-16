@@ -5,12 +5,19 @@ let Web3 = require('web3');
 let finished = false;
 let web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
+function sleep(ms){
+    return new Promise(resolve=>{
+        setTimeout(resolve,ms)
+    })
+}
+
 async function getBalance(address) {
     let wei = util.promisify(cb => web3.eth.getBalance(address, cb))
     try {
         return (await wei());
     } catch (error) {
         console.log(error);
+        await sleep(1000);
         return null;
     }
 }
